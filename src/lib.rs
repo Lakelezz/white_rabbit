@@ -189,6 +189,12 @@ fn set_state_lock(state_lock: &Mutex<SchedulerState>, to_set: SchedulerState) {
     *state = to_set;
 }
 
+#[inline]
+fn _push_and_notfiy(date: Date, heap: &BinaryHeap<Date>, notifier: &Condvar) {
+    heap.push(date);
+    notifier.notify_one();
+}
+
 /// This function pushes a `date` onto `data_pooled` and notifies the
 /// dispatching-thread in case they are sleeping.
 #[inline]
@@ -209,21 +215,18 @@ fn push_and_notfiy(
             let left = peek.context.time.signed_duration_since(Utc::now());
 
             *state = SchedulerState::new_pause_time(left);
-            heap_lock.push(date);
-            notifier.notify_one();
+            _push_and_notfiy(date, &heap_lock, &notifier);
         } else {
             let left = when.signed_duration_since(Utc::now());
 
             *state = SchedulerState::new_pause_time(left);
-            heap_lock.push(date);
-            notifier.notify_one();
+            _push_and_notfiy(date, &heap_lock, &notifier);
         }
     } else {
         let left = when.signed_duration_since(Utc::now());
-        heap_lock.push(date);
 
         *state = SchedulerState::new_pause_time(left);
-        notifier.notify_one();
+        _push_and_notfiy(date, &heap_lock, &notifier);
     }
 
 }
