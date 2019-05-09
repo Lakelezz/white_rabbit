@@ -52,8 +52,8 @@ Add this to your `Cargo.toml`:
 white_rabbit = "0.1.0"
 ```
 
-[ci]: https://dev.azure.com/lakeware/white_rabbit/_build?definitionId=7
-[ci-badge]: https://img.shields.io/azure-devops/build/lakeware/dfa18c4f-23ad-4c36-810f-144481ab4c93/7/master.svg?style=flat-square
+[ci]: https://dev.azure.com/lakeware/white_rabbit/_build?definitionId=8
+[ci-badge]: https://img.shields.io/azure-devops/build/lakeware/dfa18c4f-23ad-4c36-810f-144481ab4c93/8/master.svg?style=flat-square
 
 [docs-badge]: https://img.shields.io/badge/docs-online-5023dd.svg?style=flat-square&colorB=32b6b7
 [docs]: https://docs.rs/white_rabbit
