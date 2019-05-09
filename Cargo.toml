@@ -1,0 +1,26 @@
+[package]
+name = "white_rabbit"
+version = "0.1.0"
+license = "ISC"
+repository = "https://github.com/lakelezz/white_rabbit.git"
+authors = ["Lakelezz <lakelezz@protonmail.ch>"]
+keywords = ["time", "scheduler", "tasks"]
+categories = ["data structures", "date and time"]
+description = "Task scheduler, allowing timed execution, repeated or not."
+readme = "README.md"
+documentation = "https://docs.rs/white_rabbit"
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+parking_lot = "0.8"
+log = "0.4"
+threadpool = "1.7"
+serde = "1.0"
+chrono = "0.4"
+
+[build-dependencies]
+skeptic = "0.13"
+
+[dev-dependencies]
+skeptic = "0.13"
