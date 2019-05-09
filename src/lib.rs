@@ -202,25 +202,30 @@ fn push_and_notfiy(
 
     let mut state = state_lock.lock();
 
-    if state.is_paused() {
-        let mut heap_lock = data_pooled.write();
+    let mut heap_lock = data_pooled.write();
 
-        if let Some(peek) = heap_lock.peek() {
-            if peek.context.time > *when {
-                let left = peek.context.time.signed_duration_since(Utc::now());
-
-                *state = SchedulerState::new_pause_time(left);
-                heap_lock.push(date);
-                notifier.notify_one();
-            }
-        } else {
-            let left = when.signed_duration_since(Utc::now());
-            heap_lock.push(date);
+    if let Some(peek) = heap_lock.peek() {
+        if peek.context.time < *when {
+            let left = peek.context.time.signed_duration_since(Utc::now());
 
             *state = SchedulerState::new_pause_time(left);
+            heap_lock.push(date);
+            notifier.notify_one();
+        } else {
+            let left = when.signed_duration_since(Utc::now());
+
+            *state = SchedulerState::new_pause_time(left);
+            heap_lock.push(date);
             notifier.notify_one();
         }
+    } else {
+        let left = when.signed_duration_since(Utc::now());
+        heap_lock.push(date);
+
+        *state = SchedulerState::new_pause_time(left);
+        notifier.notify_one();
     }
+
 }
 
 #[must_use]
