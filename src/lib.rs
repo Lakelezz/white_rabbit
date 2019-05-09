@@ -102,11 +102,6 @@ impl SchedulerState {
         cmp_variant!(*self, SchedulerState::Run)
     }
 
-    fn is_paused(&self) -> bool {
-        cmp_variant!(*self, SchedulerState::PauseEmpty)
-            || cmp_variant!(*self, SchedulerState::PauseTime(_))
-    }
-
     fn new_pause_time(duration: ChronoDuration) -> Self {
         SchedulerState::PauseTime(
             duration
@@ -190,7 +185,7 @@ fn set_state_lock(state_lock: &Mutex<SchedulerState>, to_set: SchedulerState) {
 }
 
 #[inline]
-fn _push_and_notfiy(date: Date, heap: &BinaryHeap<Date>, notifier: &Condvar) {
+fn _push_and_notfiy(date: Date, heap: &mut BinaryHeap<Date>, notifier: &Condvar) {
     heap.push(date);
     notifier.notify_one();
 }
@@ -215,18 +210,18 @@ fn push_and_notfiy(
             let left = peek.context.time.signed_duration_since(Utc::now());
 
             *state = SchedulerState::new_pause_time(left);
-            _push_and_notfiy(date, &heap_lock, &notifier);
+            _push_and_notfiy(date, &mut heap_lock, &notifier);
         } else {
             let left = when.signed_duration_since(Utc::now());
 
             *state = SchedulerState::new_pause_time(left);
-            _push_and_notfiy(date, &heap_lock, &notifier);
+            _push_and_notfiy(date, &mut heap_lock, &notifier);
         }
     } else {
         let left = when.signed_duration_since(Utc::now());
 
         *state = SchedulerState::new_pause_time(left);
-        _push_and_notfiy(date, &heap_lock, &notifier);
+        _push_and_notfiy(date, &mut heap_lock, &notifier);
     }
 
 }
