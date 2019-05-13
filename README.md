@@ -62,4 +62,4 @@ white_rabbit = "0.1.0"
 [rust link]: https://blog.rust-lang.org/2019/04/25/Rust-1.34.1.html
 
 [crates.io link]: https://crates.io/crates/white_rabbit
-[crates.io version]: https://img.shields.io/crates/v/white_rabbit.svg?style=flat-square&colorB=dfccc7
+[crates.io version]: https://img.shields.io/crates/v/white_rabbit.svg?style=flat-square&colorB=b73732
