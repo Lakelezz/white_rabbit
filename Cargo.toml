@@ -14,9 +14,7 @@ build = "build.rs"
 
 [dependencies]
 parking_lot = "0.8"
-log = "0.4"
 threadpool = "1.7"
-serde = "1.0"
 chrono = "0.4"
 
 [build-dependencies]
