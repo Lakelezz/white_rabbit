@@ -49,7 +49,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-white_rabbit = "0.1.0"
+white_rabbit = "0.1"
 ```
 
 [ci]: https://dev.azure.com/lakeware/white_rabbit/_build?definitionId=8
